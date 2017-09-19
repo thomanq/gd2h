@@ -56,16 +56,20 @@ def gitdiff2html(args):
                 except:
                     print("error: could'nt delete ", output_file_temp)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-c', '--commit', default='HEAD^ HEAD', help="commits to diff, defaults to 'HEAD^ HEAD'")
-parser.add_argument('-o', '--output-file', default='diff.html', help="output file, defaults to 'diff.html'")
-parser.add_argument('-t', '--title', default='Git Diff', help="output file title, defaults to 'Git Diff'")
-parser.add_argument('-p', '--print', action='store_true', help="print output command instead of running it'")
-parser.add_argument('-l', '--line-through', action='store_true', help="line through deleted words'")
-parser.add_argument('-d', '--drop-header', action='store_true', help="drop git diff header")
-parser.add_argument('-a', '--auto', action='store_true', help="correction mode: set default flags for pretty file correction layout")
-parser.set_defaults(func=gitdiff2html)
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--commit', default='HEAD^ HEAD', help="commits to diff, defaults to 'HEAD^ HEAD'")
+    parser.add_argument('-o', '--output-file', default='diff.html', help="output file, defaults to 'diff.html'")
+    parser.add_argument('-t', '--title', default='Git Diff', help="output file title, defaults to 'Git Diff'")
+    parser.add_argument('-p', '--print', action='store_true', help="print output command instead of running it'")
+    parser.add_argument('-l', '--line-through', action='store_true', help="line through deleted words'")
+    parser.add_argument('-d', '--drop-header', action='store_true', help="drop git diff header")
+    parser.add_argument('-a', '--auto', action='store_true', help="correction mode: set default flags for pretty file correction layout")
+    parser.set_defaults(func=gitdiff2html)
+
     args = parser.parse_args()
     args.func(args)
+
+if __name__ == "__main__":
+    main()
