@@ -43,7 +43,7 @@ def gitdiff2html(args):
                     with codecs.open(args.output_file, "w", "utf-8") as output_file_handle:
                         for line in output_file_temp_handle:
                             if line == ".green       {color: green;}\n":
-                                output_file_handle.write(".green       {color: #00C900;}\n")
+                                output_file_handle.write(".green       {color: #02A602; background-color: #D9FED9;}\n")
                             elif args.line_through and line == ".red         {color: red;}\n":
                                 output_file_handle.write(".red         {color: red; text-decoration: line-through;}\n")
                             elif args.drop_header and len(line) > len('<span class="bold ">') \
