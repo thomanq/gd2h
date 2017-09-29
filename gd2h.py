@@ -6,9 +6,14 @@ import argparse
 import codecs
 
 def exists(command_name):
-    return os.system("which -s " + command_name) == 0
+    if os.name == 'nt':
+        return os.system("where /Q " + command_name) == 0
+    else:
+        return os.system("which -s " + command_name) == 0
 
 def run(cmd):
+    if os.name == 'nt':
+        cmd = cmd.replace('^','^^') # the caret is an escape characater in Windows cmd.exe
     result = os.system(cmd)
     if result != 0:
         print("error: ", cmd)
@@ -42,10 +47,10 @@ def gitdiff2html(args):
                 with codecs.open(output_file_temp, "r", "utf-8") as output_file_temp_handle:
                     with codecs.open(args.output_file, "w", "utf-8") as output_file_handle:
                         for line in output_file_temp_handle:
-                            if line == ".green       {color: green;}\n":
-                                output_file_handle.write(".green       {color: #02A602; background-color: #D9FED9;}\n")
-                            elif args.line_through and line == ".red         {color: red;}\n":
-                                output_file_handle.write(".red         {color: red; text-decoration: line-through;}\n")
+                            if line == ".green       {color: green;}" + os.linesep:
+                                output_file_handle.write(".green       {color: #02A602; background-color: #D9FED9;}" + os.linesep)
+                            elif args.line_through and line == ".red         {color: red;}" + os.linesep:
+                                output_file_handle.write(".red         {color: red; text-decoration: line-through;}" + os.linesep)
                             elif args.drop_header and len(line) > len('<span class="bold ">') \
                                                   and line[:len('<span class="bold ">')] in ['<span class="bold ">', '<span class="cyan ">']:
                                 pass
